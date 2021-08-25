@@ -1,22 +1,21 @@
-function pegaDados(dados) {
-  console.log(dados);
-}
+let nomes = [];
+let pokemons = [];
 
 function fetchPokemon(nome) {
   return fetch(`https://pokeapi.co/api/v2/pokemon/${nome}`)
   .then((r) => r.json())
-  .then((r) => pegaDados(r))
-  .then((r) => r);
-}
-
-function criaListaPokemons(lista) {
-  const pokemons = lista.reduce((acc, curr) => {
-    acc[curr.name] = fetchPokemon(curr.name);
-    return acc;
-  }, {});
-  console.log(pokemons);
+  .then(({ abilities, stats }) => {
+    return ({ abilities, stats });
+  });
 }
 
 const fetchAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=50&offset=0')
 .then((r) => r.json())
-.then((r) => criaListaPokemons(r.results));
+.then((r) =>  dadosIniciais = r.results)
+.then((r) => r.forEach((poke) => nomes.push(poke.name)))
+.then(() => nomes.forEach(async (nome) => {
+  pokemons.push([nome, await fetchPokemon(nome)]);
+}))
+/*.then(() => criaListaPokemons(nomes))*/
+.then(() => console.log(nomes))
+.then(() => console.log(pokemons)); 
