@@ -5,7 +5,7 @@ function pegaDados(dados) {
 function fetchPokemon(nome) {
   return fetch(`https://pokeapi.co/api/v2/pokemon/${nome}`)
   .then((r) => r.json())
-  .then(({ PromiseResult }) => pegaDados(r))
+  .then((r) => pegaDados(r))
   .then((r) => r);
 }
 

@@ -1,3 +1,4 @@
+const BOARDSIZE = 20;
 const board = document.getElementById('board');
 
 const genBoard = (size) => {
@@ -14,4 +15,23 @@ const genBoard = (size) => {
   }
 }
 
-genBoard(20);
+genBoard(BOARDSIZE);
+
+const fillLandscapeSeeds = (maxSeeds) => {
+  const seeds = [];
+  do {
+    const newRandomSeed = {};
+    newRandomSeed.line = Math.ceil(Math.random() * BOARDSIZE);
+    newRandomSeed.colunm = Math.ceil(Math.random() * BOARDSIZE);
+    if (!seeds.includes(newRandomSeed)) 
+      seeds.push(newRandomSeed);
+  } while(seeds.length < maxSeeds);
+  return seeds;
+};
+
+const genLandscape = () => {
+  const landscapeSeeds = fillLandscapeSeeds(BOARDSIZE/2);
+  console.log(landscapeSeeds);
+};
+
+genLandscape();
