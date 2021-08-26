@@ -77,7 +77,7 @@ const genRawBoardLandscape = (assets) => {
   return assets.reduce((landscape, { name, parameters }) => {
     const probability = parameters[0];
     const expansion = parameters[1];
-    genLandscape(probability, expansion).forEach(({ line, column}) => {
+    genLandscape(probability, expansion).forEach(({ line, column }) => {
       const newBoardLandscapePixel = {
         'name': name,
         'id': `L,${line},C,${column}`,
@@ -89,8 +89,31 @@ const genRawBoardLandscape = (assets) => {
   }, []);
 };
 
+const smothLandscape = (seed, landscape) => {
+  const landName = '';
+  const neighboorCount = {};
+  for (let line = seed.line - 1; line <= seed.line + 1; line += 1) {
+    for (let column = seed.column - 1; column <= seed.column + 1; column += 1) {
+      
+    }
+  }
+
+  console.log(neighboorCount);
+
+  return ({
+    'name': landName,
+    'id': `L,${seed.line},C,${seed.column}`,
+  });
+};
+
 const genSmothBoardLandscape = (landscape) => {
-  console.log(landscape);
+  const newLandscape = [...landscape];
+  for (let line = 0; line < BOARDSIZE; line += 1) {
+    for (let column = 0; column < BOARDSIZE; column += 1) {
+      if(!landscape.some((land) => land.id === `L,${line},C,${column}` ))
+        newLandscape.push(smothLandscape({ line, column }, landscape));
+    }
+  }
 };
 
 const test = genRawBoardLandscape([ {
@@ -99,19 +122,19 @@ const test = genRawBoardLandscape([ {
  },
 {
   'name': 'watter',
-  'parameters': ([500, 10]),
+  'parameters': ([10, 10]),
 },
 {
   'name': 'rock',
-  'parameters': ([100, 100]),
+  'parameters': ([10, 100]),
 },
 {
   'name': 'sand',
-  'parameters': ([100, 10]),
+  'parameters': ([10, 10]),
 },
 {
   'name': 'vulkan',
-  'parameters': ([100, 200]),
+  'parameters': ([10, 200]),
 } ]);
 
 genSmothBoardLandscape(test);
