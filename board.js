@@ -86,23 +86,23 @@ const genBoardLandscape = (assets) => {
 
 const test = genBoardLandscape([ {
   'name': 'garden', 
-  'parameters': ([15, 100]),
+  'parameters': ([8, 100]),
  },
 {
   'name': 'watter',
-  'parameters': ([80, 100]),
+  'parameters': ([5, 100]),
 },
 {
   'name': 'rock',
-  'parameters': ([10, 20]),
+  'parameters': ([3, 100]),
 },
 {
   'name': 'sand',
-  'parameters': ([10, 20]),
+  'parameters': ([20, 100]),
 },
 {
   'name': 'vulkan',
-  'parameters': ([10, 20]),
+  'parameters': ([30, 100]),
 } ]);
 
 console.log(test);
