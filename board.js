@@ -90,16 +90,21 @@ const genRawBoardLandscape = (assets) => {
 };
 
 const smothLandscape = (seed, landscape) => {
-  const landName = '';
   const neighboorCount = {};
   for (let line = seed.line - 1; line <= seed.line + 1; line += 1) {
     for (let column = seed.column - 1; column <= seed.column + 1; column += 1) {
-      
+      const neighboor = landscape.find((land) => land.id === `L,${line},C,${column}`);
+      if (neighboor)
+        neighboorCount[`${neighboor.name}`] = neighboorCount[`${neighboor.name}`]
+          ? neighboorCount[`${neighboor.name}`] + 1
+          : 1;
     }
   }
-
-  console.log(neighboorCount);
-
+      
+  const landName = Object.entries(neighboorCount).reduce((newName, current) => current[1] > newName[1]
+      ? current
+      : newName)[0];
+  
   return ({
     'name': landName,
     'id': `L,${seed.line},C,${seed.column}`,
@@ -114,11 +119,13 @@ const genSmothBoardLandscape = (landscape) => {
         newLandscape.push(smothLandscape({ line, column }, landscape));
     }
   }
+
+  return newLandscape;
 };
 
 const test = genRawBoardLandscape([ {
   'name': 'garden', 
-  'parameters': ([30, 80]),
+  'parameters': ([8, 100]),
  },
 {
   'name': 'watter',
@@ -135,11 +142,21 @@ const test = genRawBoardLandscape([ {
 {
   'name': 'vulkan',
   'parameters': ([10, 200]),
+},
+{
+  'name': 'rock',
+  'parameters': ([3, 100]),
+},
+{
+  'name': 'sand',
+  'parameters': ([20, 100]),
+},
+{
+  'name': 'vulkan',
+  'parameters': ([30, 100]),
 } ]);
 
-genSmothBoardLandscape(test);
-
-test.forEach((pixel) => {
+genSmothBoardLandscape(test).forEach((pixel) => {
   const block = document.getElementById(`${pixel.id}`);
   block.className = `pixel-board ${pixel.name}`;
 });
