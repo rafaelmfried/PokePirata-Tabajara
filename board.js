@@ -17,12 +17,17 @@ const genBoard = (size) => {
 
 genBoard(BOARDSIZE);
 
+const genRamonSeedObject = () => {
+  const randomSeed = {};
+  randomSeed.line = Math.ceil(Math.random() * BOARDSIZE - 1);
+  randomSeed.column = Math.ceil(Math.random() * BOARDSIZE - 1);
+  return randomSeed;
+};
+
 const fillLandscapeSeeds = (maxSeeds) => {
   const seeds = [];
   do {
-    const newRandomSeed = {};
-    newRandomSeed.line = Math.ceil(Math.random() * BOARDSIZE - 1);
-    newRandomSeed.column = Math.ceil(Math.random() * BOARDSIZE - 1);
+    const newRandomSeed = genRamonSeedObject();
     if (!seeds.includes(newRandomSeed)) 
       seeds.push(newRandomSeed);
   } while(seeds.length < maxSeeds);
@@ -68,7 +73,7 @@ const genLandscape = (probability, expansion) => {
   }, []);
 };
 
-const genBoardLandscape = (assets) => {
+const genRawBoardLandscape = (assets) => {
   return assets.reduce((landscape, { name, parameters }) => {
     const probability = parameters[0];
     const expansion = parameters[1];
@@ -84,7 +89,11 @@ const genBoardLandscape = (assets) => {
   }, []);
 };
 
-const test = genBoardLandscape([ {
+const genSmothBoardLandscape = (landscape) => {
+  console.log(landscape);
+};
+
+const test = genRawBoardLandscape([ {
   'name': 'garden', 
   'parameters': ([8, 100]),
  },
@@ -105,7 +114,7 @@ const test = genBoardLandscape([ {
   'parameters': ([30, 100]),
 } ]);
 
-console.log(test);
+genSmothBoardLandscape(test);
 
 test.forEach((pixel) => {
   const block = document.getElementById(`${pixel.id}`);
