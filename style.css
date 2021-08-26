@@ -13,3 +13,23 @@
 table {
   border-collapse: collapse;
 }
+
+.garden {
+  background-color: chartreuse;
+}
+
+.watter {
+  background-color: cyan;
+}
+
+.rock {
+  background-color: black;
+}
+
+.vulkan {
+  background-color: firebrick;
+}
+
+.sand {
+  background-color: rgb(167, 172, 146);
+}
