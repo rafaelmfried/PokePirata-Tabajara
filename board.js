@@ -90,7 +90,7 @@ const genRawBoardLandscape = (assets) => {
 };
 
 const genSmothBoardLandscape = (landscape) => {
-  console.log(landscape);
+  //  console.log(landscape);
 };
 
 const test = genRawBoardLandscape([ {
