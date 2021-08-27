@@ -767,7 +767,7 @@ async function fetchAPI() {
 
 fetchAPI();
 
-function luta(oponente) {
+async function luta(oponente) {
   const nomeOponente = oponente[0];
   let hpOponente = oponente[1].stats[0].base_stat;
   const ataqueOponente = oponente[1].stats[1].base_stat;
@@ -790,11 +790,13 @@ function luta(oponente) {
   console.log(`Velocidade = ${velocidadePokemon}`);
   console.log(`Defesa = ${defesaPokemon}`);
   do {
-    const golpePokemon = parseFloat((Math.random() * ataquePokemon / 6 * velocidadePokemon / defesaOponente).toFixed(0));
+    const golpePokemon = parseFloat((Math.random() * ataquePokemon / 3 * velocidadePokemon / defesaOponente).toFixed(0));
     hpOponente = hpOponente - golpePokemon;
-    const golpeOponente = parseFloat((Math.random() * ataqueOponente / 6 * velocidadeOponente / defesaPokemon).toFixed(0));
-    hpPokemon = hpPokemon - golpePokemon;
+    const golpeOponente = parseFloat((Math.random() * ataqueOponente / 3 * velocidadeOponente / defesaPokemon).toFixed(0));
+    hpPokemon = hpPokemon - golpeOponente;
+    await new Promise(resolve => setTimeout(resolve, 1500));
     console.log(`${nomeOponente} levou ${golpePokemon} de dano e seu HP diminiu para ${hpOponente}`);
+    await new Promise(resolve => setTimeout(resolve, 1500));
     console.log(`${pokemon} levou ${golpeOponente} de dano e seu HP diminiu para ${hpPokemon}`);
   } while (hpOponente > 0 && hpPokemon > 0);
   hpPokemon > 0 ? console.log(`Seu pokemón ${pokemon} venceu a batalha!`) : console.log(`O pokemón oponente ${nomeOponente} venceu a batalha!`);
