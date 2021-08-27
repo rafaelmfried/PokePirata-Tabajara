@@ -77,7 +77,7 @@ const genRawBoardLandscape = (assets) => {
   return assets.reduce((landscape, { name, parameters }) => {
     const probability = parameters[0];
     const expansion = parameters[1];
-    genLandscape(probability, expansion).forEach(({ line, column}) => {
+    genLandscape(probability, expansion).forEach(({ line, column }) => {
       const newBoardLandscapePixel = {
         'name': name,
         'id': `L,${line},C,${column}`,
@@ -89,8 +89,38 @@ const genRawBoardLandscape = (assets) => {
   }, []);
 };
 
+const smothLandscape = (seed, landscape) => {
+  const neighboorCount = {};
+  for (let line = seed.line - 1; line <= seed.line + 1; line += 1) {
+    for (let column = seed.column - 1; column <= seed.column + 1; column += 1) {
+      const neighboor = landscape.find((land) => land.id === `L,${line},C,${column}`);
+      if (neighboor)
+        neighboorCount[`${neighboor.name}`] = neighboorCount[`${neighboor.name}`]
+          ? neighboorCount[`${neighboor.name}`] + 1
+          : 1;
+    }
+  }
+      
+  const landName = Object.entries(neighboorCount).reduce((newName, current) => current[1] > newName[1]
+      ? current
+      : newName)[0];
+  
+  return ({
+    'name': landName,
+    'id': `L,${seed.line},C,${seed.column}`,
+  });
+};
+
 const genSmothBoardLandscape = (landscape) => {
-  //  console.log(landscape);
+  const newLandscape = [...landscape];
+  for (let line = 0; line < BOARDSIZE; line += 1) {
+    for (let column = 0; column < BOARDSIZE; column += 1) {
+      if(!landscape.some((land) => land.id === `L,${line},C,${column}` ))
+        newLandscape.push(smothLandscape({ line, column }, landscape));
+    }
+  }
+
+  return newLandscape;
 };
 
 const test = genRawBoardLandscape([ {
@@ -99,7 +129,19 @@ const test = genRawBoardLandscape([ {
  },
 {
   'name': 'watter',
-  'parameters': ([5, 100]),
+  'parameters': ([10, 10]),
+},
+{
+  'name': 'rock',
+  'parameters': ([10, 100]),
+},
+{
+  'name': 'sand',
+  'parameters': ([10, 10]),
+},
+{
+  'name': 'vulkan',
+  'parameters': ([10, 200]),
 },
 {
   'name': 'rock',
@@ -114,9 +156,7 @@ const test = genRawBoardLandscape([ {
   'parameters': ([30, 100]),
 } ]);
 
-genSmothBoardLandscape(test);
-
-test.forEach((pixel) => {
+genSmothBoardLandscape(test).forEach((pixel) => {
   const block = document.getElementById(`${pixel.id}`);
   block.className = `pixel-board ${pixel.name}`;
 });
